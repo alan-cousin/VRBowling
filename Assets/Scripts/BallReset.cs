@@ -27,35 +27,7 @@ public class BallReset : MonoBehaviour
     {
         if (other.gameObject.tag != "Ball") return;
         chance++;
-        CheckPinScore();
-        Destroy(m_currentBall);
-        m_currentBall = Instantiate(m_ball, m_ballSpawn.position, Quaternion.identity);
-
-        if (chance == 1 && score == 10)
-        {
-            strikePanel.SetActive(true);
-            ResetPinSet();
-            return;
-        }
-        else if (chance == 2 && score < 10)
-        {
-            faulirePanel.SetActive(true);
-            faulirePanel.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "YourScore: " + score; 
-            ResetPinSet();
-            return;
-        }
-        else if (chance == 2 && score == 10)
-        {
-            sparePanel.SetActive(true);
-            ResetPinSet();
-            return;
-        }
-        else if(chance == 1)
-        {
-            score = 0;
-            scorePanel.SetActive(true);
-            scorePanel.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "YourScore: " + score;
-        }
+        ResetGame();
     }
 
     public void ExitBtnClicked(string result) 
@@ -76,15 +48,12 @@ public class BallReset : MonoBehaviour
                 break;
             case "gutter":
                 gutterPanel.SetActive(false);
-                Destroy(m_currentBall);
-                m_currentBall = Instantiate(m_ball, m_ballSpawn.position, Quaternion.identity);
                 break;
         }
     }
 
     public void ResetPinSet() 
     {
-        score = 0;
         chance = 0;
         Destroy(curPinSet);
         curPinSet = Instantiate(m_pinSet, m_pinSet.transform.position, Quaternion.identity) as GameObject;
@@ -92,6 +61,7 @@ public class BallReset : MonoBehaviour
 
     public void CheckPinScore() 
     {
+        score = 0;
         GameObject[] pinList = GameObject.FindGameObjectsWithTag("Pin");
 
         foreach(GameObject g in pinList) 
@@ -103,12 +73,42 @@ public class BallReset : MonoBehaviour
         }
     }
 
-    public void SetGutter() 
+    public void SetGutter(Vector3 ballPos) 
     {
-        if(m_ball.transform.position.z > 18) 
+        if(ballPos.z > 18.5f) 
         {
             gutterPanel.SetActive(true);
-            if (chance < 2) chance++;
-        }   
+        }
+    }
+
+    public void ResetGame() 
+    {
+        Destroy(m_currentBall);
+        m_currentBall = Instantiate(m_ball, m_ballSpawn.position, Quaternion.identity);
+
+        if (chance == 1 && score == 10)
+        {
+            strikePanel.SetActive(true);
+            ResetPinSet();
+            return;
+        }
+        else if (chance == 2 && score < 10)
+        {
+            faulirePanel.SetActive(true);
+            faulirePanel.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "YourScore: " + score;
+            ResetPinSet();
+            return;
+        }
+        else if (chance == 2 && score == 10)
+        {
+            sparePanel.SetActive(true);
+            ResetPinSet();
+            return;
+        }
+        else if (chance == 1)
+        {
+            scorePanel.SetActive(true);
+            scorePanel.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "YourScore: " + score;
+        }
     }
 }
