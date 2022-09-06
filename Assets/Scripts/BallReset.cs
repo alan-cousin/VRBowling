@@ -17,6 +17,7 @@ public class BallReset : MonoBehaviour
     public GameObject faulirePanel;
     public GameObject sparePanel;
     public GameObject strikePanel;
+    public GameObject gutterPanel;
 
     private void Start()
     {
@@ -73,6 +74,9 @@ public class BallReset : MonoBehaviour
             case "strike":
                 strikePanel.SetActive(false);
                 break;
+            case "gutter":
+                gutterPanel.SetActive(false);
+                break;
         }
     }
 
@@ -90,11 +94,18 @@ public class BallReset : MonoBehaviour
 
         foreach(GameObject g in pinList) 
         {
-            Debug.Log(g.transform.position);
             if(g.transform.position.y < 0.19f) 
             {
                 score++;
             }
         }
+    }
+
+    public void SetGutter() 
+    {
+        if(m_ball.transform.position.z > 18) 
+        {
+            if (chance < 2) chance++;
+        }   
     }
 }

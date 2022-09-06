@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class BowlingBall : MonoBehaviour
 {
-    public bool isEndPos = false;
-    // Update is called once per frame
-    void Update()
+    private GameObject ballReset;
+    // Start is called before the first frame update
+    
+    void OnTriggerEnter(Collider other)
     {
-        if (transform.position.z < 18 && isEndPos == false)
+        Debug.Log(other.gameObject.name);
+        if(other.gameObject.name == "Gutter") 
         {
-            isEndPos = true;
+            ballReset = GameObject.Find("BallReset");
+            ballReset.GetComponent<BallReset>().SetGutter();
         }
     }
 }
