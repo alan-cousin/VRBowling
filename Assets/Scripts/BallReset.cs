@@ -50,7 +50,7 @@ public class BallReset : MonoBehaviour
             ResetPinSet();
             return;
         }
-        else
+        else if(chance == 1)
         {
             score = 0;
             scorePanel.SetActive(true);
