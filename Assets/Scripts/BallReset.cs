@@ -76,6 +76,8 @@ public class BallReset : MonoBehaviour
                 break;
             case "gutter":
                 gutterPanel.SetActive(false);
+                Destroy(m_currentBall);
+                m_currentBall = Instantiate(m_ball, m_ballSpawn.position, Quaternion.identity);
                 break;
         }
     }
@@ -105,6 +107,7 @@ public class BallReset : MonoBehaviour
     {
         if(m_ball.transform.position.z > 18) 
         {
+            gutterPanel.SetActive(true);
             if (chance < 2) chance++;
         }   
     }

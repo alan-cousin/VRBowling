@@ -5,15 +5,16 @@ using UnityEngine;
 public class BowlingBall : MonoBehaviour
 {
     private GameObject ballReset;
+    public bool isGutterBall = false;
     // Start is called before the first frame update
-    
-    void OnTriggerEnter(Collider other)
+    void Update()
     {
-        Debug.Log(other.gameObject.name);
-        if(other.gameObject.name == "Gutter") 
+        if (gameObject.transform.position.y < 0f && !isGutterBall)
         {
             ballReset = GameObject.Find("BallReset");
             ballReset.GetComponent<BallReset>().SetGutter();
+            isGutterBall = true;
         }
     }
+
 }
